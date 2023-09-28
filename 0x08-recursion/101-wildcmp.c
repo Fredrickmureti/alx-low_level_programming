@@ -9,46 +9,24 @@
  */
 int wildcmp(char *s1, char *s2)
 {
-    int s1_len = strlen(s1);
-    int s2_len = strlen(s2);
-    int s1_index = 0;
-    int s2_index = 0;
-    int s1_star = -1;
-    int s2_star = -1;
-
-    while (s1_index < s1_len)
+    if (*s1 == '\0')
     {
-        if (s2_index < s2_len && (s2[s2_index] == '*' || s2[s2_index] == s1[s1_index]))
-        {
-            if (s2[s2_index] == '*')
-            {
-                s1_star = s1_index;
-                s2_star = s2_index;
-                s2_index++;
-            }
-            else
-            {
-                s1_index++;
-                s2_index++;
-            }
-        }
-        else if (s1_star != -1)
-        {
-            s1_star++;
-            s1_index = s1_star;
-            s2_index = s2_star + 1;
-        }
-        else
-        {
-            return (0);
-        }
+        if (*s2 == '\0' || (*s2 == '*' && wildcmp(s1, s2 + 1)))
+            return (1);
+        return (0);
     }
 
-    while (s2_index < s2_len && s2[s2_index] == '*')
+    if (*s2 == '*')
     {
-        s2_index++;
+        if (wildcmp(s1, s2 + 1) || wildcmp(s1 + 1, s2))
+            return (1);
     }
 
-    return (s2_index == s2_len);
+    if (*s1 == *s2)
+    {
+        return (wildcmp(s1 + 1, s2 + 1));
+    }
+
+    return (0);
 }
 
