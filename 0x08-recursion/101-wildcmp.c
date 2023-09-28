@@ -9,29 +9,46 @@
  */
 int wildcmp(char *s1, char *s2)
 {
-	/* If both strings are empty, they are considered identical */
-	if (*s1 == '\0' && (*s2 == '\0' || (*s2 == '*' && *(s2 + 1) == '\0')))
-	{
-		return (1);
-	}
+    int s1_len = strlen(s1);
+    int s2_len = strlen(s2);
+    int s1_index = 0;
+    int s2_index = 0;
+    int s1_star = -1;
+    int s2_star = -1;
 
-	/* If the current characters match or s2 has a wildcard '*', continue comparing */
-	if (*s1 == *s2 || *s2 == '*')
-	{
-		/* Check if s2's '*' can replace any string, including an empty string */
-		if (*s2 == '*')
-		{
-			if (wildcmp(s1 + 1, s2) || wildcmp(s1, s2 + 1))
-			{
-				return (1);
-			}
-		}
+    while (s1_index < s1_len)
+    {
+        if (s2_index < s2_len && (s2[s2_index] == '*' || s2[s2_index] == s1[s1_index]))
+        {
+            if (s2[s2_index] == '*')
+            {
+                s1_star = s1_index;
+                s2_star = s2_index;
+                s2_index++;
+            }
+            else
+            {
+                s1_index++;
+                s2_index++;
+            }
+        }
+        else if (s1_star != -1)
+        {
+            s1_star++;
+            s1_index = s1_star;
+            s2_index = s2_star + 1;
+        }
+        else
+        {
+            return (0);
+        }
+    }
 
-		/* If not, continue comparing characters */
-		return (wildcmp(s1 + 1, s2 + 1));
-	}
+    while (s2_index < s2_len && s2[s2_index] == '*')
+    {
+        s2_index++;
+    }
 
-	/* If the current characters don't match, and there's no wildcard '*', return 0 */
-	return (0);
+    return (s2_index == s2_len);
 }
 
