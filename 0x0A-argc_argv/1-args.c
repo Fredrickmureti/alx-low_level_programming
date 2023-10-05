@@ -1,9 +1,12 @@
 #include <stdio.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv __attribute__((unused)))
 {
-    (void)argv;  /* Unused parameter, so we silence the warning */
-    printf("%d\n", argc - 1); /* Subtract 1 to exclude the program name itself */
+    if (argc > 1)
+        printf("%d\n", argc - 1);
+    else
+        printf("0\n");
+
     return 0;
 }
 
