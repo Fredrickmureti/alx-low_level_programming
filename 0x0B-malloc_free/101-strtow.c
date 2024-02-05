@@ -1,110 +1,77 @@
+#include "main.h"
 #include <stdlib.h>
+
+/**
+  * cwords - start
+  * @s: string
+  * Return: int words
+*/
+
+int cwords(char *s)
+{
+	int a, b, c;
+
+	a = 0;
+	c = 0;
+	for (b = 0; s[b] != '\0'; b++)
+	{
+		if (s[b] == ' ')
+		{
+			a = 0;
+		}
+		if (a == 0)
+		{
+			a = 1;
+			c++;
+		}
+	}
+	return (c);
+}
+
+/**
+  * strtow - splitter
+  * @str: string
+  * Return: ptr
+*/
 
 char **strtow(char *str)
 {
-    if (str == NULL || *str == '\0')
-        return (NULL);
+	int begin, mwisho, d, e, f, g, maneno;
+	char **x, *y;
 
-    int num_words = 0;
-    int in_word = 0;
-    char *ptr = str;
-
-    while (*ptr)
-    {
-        if (*ptr == ' ')
-        {
-            in_word = 0;
-        }
-        else if (!in_word)
-        {
-            in_word = 1;
-            num_words++;
-        }
-        ptr++;
-    }
-
-    char **words = (char **)malloc(sizeof(char *) * (num_words + 1));
-    if (words == NULL)
-        return (NULL);
-
-    int word_len = 0;
-    int word_idx = 0;
-    in_word = 0;
-
-    while (*str)
-    {
-        if (*str == ' ')
-        {
-            if (in_word)
-            {
-                words[word_idx] = (char *)malloc(sizeof(char) * (word_len + 1));
-                if (words[word_idx] == NULL)
-                {
-                    for (int i = 0; i < word_idx; i++)
-                        free(words[i]);
-                    free(words);
-                    return (NULL);
-                }
-                word_len = 0;
-                word_idx++;
-            }
-            in_word = 0;
-        }
-        else
-        {
-            if (!in_word)
-                in_word = 1;
-            word_len++;
-        }
-        str++;
-    }
-
-    if (in_word)
-    {
-        words[word_idx] = (char *)malloc(sizeof(char) * (word_len + 1));
-        if (words[word_idx] == NULL)
-        {
-            for (int i = 0; i < word_idx; i++)
-                free(words[i]);
-            free(words);
-            return (NULL);
-        }
-        word_idx++;
-    }
-
-    words[word_idx] = NULL;
-
-    word_idx = 0;
-    in_word = 0;
-    ptr = str;
-
-    while (*ptr)
-    {
-        if (*ptr == ' ')
-        {
-            if (in_word)
-            {
-                words[word_idx][word_len] = '\0';
-                word_len = 0;
-                word_idx++;
-            }
-            in_word = 0;
-        }
-        else
-        {
-            if (!in_word)
-                in_word = 1;
-            words[word_idx][word_len] = *ptr;
-            word_len++;
-        }
-        ptr++;
-    }
-
-    if (in_word)
-    {
-        words[word_idx][word_len] = '\0';
-    }
-
-    return (words);
+	e = 0;
+	f = 0;
+	g = 0;
+	while (*(str + f))
+	{
+		f++;
+	}
+	maneno = cwords(str);
+	if (maneno == 0)
+		return (NULL);
+	x = (char **) malloc(sizeof(char *) * (maneno + 1));
+	if (x == NULL)
+		return (NULL);
+	for (d = 0; d <= f; d++)
+	{
+		if (str[d] == ' ' || str[d] == '\0')
+		{
+			if (g)
+			{
+				mwisho = d;
+				y = (char *) malloc(sizeof(char) * (g + 1));
+				if (y == NULL)
+					return (NULL);
+				while (begin < mwisho)
+					*y++ = str[begin++];
+				*y = '\0';
+				x[e] = y - g;
+				e++;
+				g = 0;
+			}
+		} else if (g++ == 0)
+			begin = d;
+	}
+	x[e] = NULL;
+	return (x);
 }
-
