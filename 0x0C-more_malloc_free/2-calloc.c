@@ -1,33 +1,45 @@
-#include <stdio.h>
+#include "main.h"
 #include <stdlib.h>
 
 /**
- * _calloc - Allocates memory for an array and initializes it to zero.
- * @nmemb: The number of elements in the array.
- * @size: The size of each element in bytes.
- *
- * Return: A pointer to the allocated and initialized memory, or NULL on failure.
+  * _memset - start
+  * @s: ptr char
+  * @a: char
+  * @n: bytes of array
+  * Return: ptr
  */
-void *_calloc(unsigned int nmemb, unsigned int size)
+
+char *_memset(char *s, char a, int n)
 {
-    void *ptr;
-    unsigned int total_size;
-    unsigned int i; /* Declare 'i' before the loop */
+	int c;
 
-    if (nmemb == 0 || size == 0)
-        return (NULL);
-
-    total_size = nmemb * size;
-
-    ptr = malloc(total_size);
-
-    if (ptr == NULL)
-        return (NULL);
-
-    /* Initialize the allocated memory to zero */
-    for (i = 0; i < total_size; i++)
-        ((char *)ptr)[i] = 0;
-
-    return (ptr);
+	for (c = 0; c < n; c++)
+	{
+		s[c] = a;
+	}
+	return (s);
 }
 
+/**
+  * _calloc - start
+  * @nmemb: bytes
+  * @size: size of array
+  * Return: nothing
+ */
+
+void *_calloc(unsigned int nmemb, unsigned int size)
+{
+	char *p;
+
+	if (nmemb == 0 || size == 0)
+	{
+		return (NULL);
+	}
+	p = malloc(size * nmemb);
+	if (p == NULL)
+	{
+		return (NULL);
+	}
+	_memset(p, 0, nmemb * size);
+	return (p);
+}

@@ -1,0 +1,21 @@
+#include <unistd.h>
+
+/**
+ * _puts - writes a string to stdout
+ * @str: The string to write
+ *
+ * Return: On success, the number of characters written is returned.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+
+void _puts(char *str)
+{
+    int i = 0;
+
+    while (str[i] != '\0')
+    {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
+
